@@ -3,11 +3,12 @@
 //
 
 #include "Network.h"
-void Network::ReceiveMessageFrom(Player& p) {
+std::string Network::ReceiveMessageFrom(Player& p) {
     int bytes = recvfrom(p.socket, p.buffer, sizeof(p.buffer), 0, (sockaddr*)&p.address, &p.addressLength);
     if (bytes == SOCKET_ERROR) {
         std::cout<<"error receiving"<<WSAGetLastError()<<"\n";
     }
+    return p.buffer;
 }
 void Network::SendMessageTo(const std::string& s, Player& p) {
     int message = sendto(p.socket, s.c_str(), static_cast<int>(s.size()) + 1, 0, (sockaddr*)&p.address, p.addressLength);

@@ -6,12 +6,15 @@
 #define SERVER_PLAYER_H
 
 #include "winsock2.h"
+#define BUFFER_SIZE 40
 class Player {
+    bool init = false;
 public:
     SOCKET socket;
     sockaddr_in address;
     int addressLength = sizeof(address);
-    char buffer[40]; // Separate buffer for each client
+    char buffer[BUFFER_SIZE];
+    bool establishConnection();
 };
 
 

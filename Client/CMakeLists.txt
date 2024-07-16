@@ -3,7 +3,10 @@ project(Client)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Client main.cpp)
+add_executable(Client main.cpp
+        MenuWindow.cpp
+        MenuWindow.h
+)
 set(WINSOCK_LIBRARIES ws2_32)
 
 # Link against Winsock

@@ -1,4 +1,6 @@
-client/cmake-build-debug
-client/.idea
-server/cmake-build-debug
-server/.idea
+Client/cmake-build-debug
+Client/.idea
+Server/cmake-build-debug
+Server/.idea
+.idea/
+plans.txt

@@ -13,7 +13,7 @@ class Network {
 public:
     Network();
     void SendMessageTo(const std::string& s, Player& p);
-    void ReceiveMessageFrom(Player& p);
+    std::string ReceiveMessageFrom(Player& p);
     void CreateSocket(Player& player, const int& port);
     bool SetNonBlocking(SOCKET& sock);
     bool BindSocketToPort(Player& p, const int& port);

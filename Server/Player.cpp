@@ -3,3 +3,13 @@
 //
 
 #include "Player.h"
+
+bool Player::establishConnection() {
+    if (!init){
+        init = true;
+        return true;
+    }
+    else {
+        return false;
+    }
+}

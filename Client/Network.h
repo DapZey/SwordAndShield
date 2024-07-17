@@ -17,10 +17,10 @@ class Network {
     int iResult;
     WSADATA wsadata;
     SOCKET sock;
+public:
     sockaddr_in address;
     int addressLength = sizeof(address);
     char buffer[BUFFER_SIZE];
-public:
     Network(std::string& ip);
     void createSocket();
     void startup();

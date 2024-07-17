@@ -8,6 +8,9 @@ add_executable(Client main.cpp
         MenuWindow.h
         Network.cpp
         Player.cpp
+        Protocol.cpp
+        ParsingUtils.cpp
+        Network.h
 )
 set(WINSOCK_LIBRARIES ws2_32)
 

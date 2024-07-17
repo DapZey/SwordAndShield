@@ -6,7 +6,8 @@
 #ifndef MENUWINDOW_H
 #define MENUWINDOW_H
 
-#define FONT_SIZE 75
+#define FONT_SIZE 40
+#define MAX_IP_INPUT 15 // XXX.XXX.XXX.XXX
 
 #include "raylib.h"
 #include  <iostream>
@@ -19,6 +20,7 @@ private:
     const int windowWidth;
     const int windowHeight;
     std::string connectionStatus = "Unconnected";
+    std::string textFieldBuffer = "255.255.255.255";
 
     void update();
     void calculate();

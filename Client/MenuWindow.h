@@ -23,6 +23,7 @@ private:
     std::string textFieldBuffer = "255.255.255.255";
 
     void update();
+    void updateTextField();
     void calculate();
     void draw();
     void drawConnectionStatus();

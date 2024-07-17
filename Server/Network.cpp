@@ -6,7 +6,6 @@
 std::string Network::ReceiveMessageFrom(Player& p) {
     int bytes = recvfrom(p.socket, p.buffer, sizeof(p.buffer), 0, (sockaddr*)&p.address, &p.addressLength);
     if (bytes == SOCKET_ERROR) {
-        std::cout<<"error receiving"<<WSAGetLastError()<<"\n";
     }
     return p.buffer;
 }

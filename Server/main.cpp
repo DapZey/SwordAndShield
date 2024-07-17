@@ -3,8 +3,7 @@
 int main() {
     Protocol p;
     std::string s ="";
-    while (s == ""){
-        std::cin>>s;
+    while (true){
         p.Run();
     }
     return 0;

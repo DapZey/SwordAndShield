@@ -31,8 +31,11 @@ void Protocol::Run() {
         otherPlayer = &players[otherPlayerIndex];
         std::string messageToSendCurrent ="";
         std::string data = network.ReceiveMessageFrom(*currentPlayer);
+        if (!data.empty()){
+            std::cout<<data<<"\n";
+        }
         tryConnection(data,*currentPlayer,messageToSendCurrent);
-        if (messageToSendCurrent.length() > 0){
+        if (!messageToSendCurrent.empty()){
             network.SendMessageTo(messageToSendCurrent,*currentPlayer);
         }
         memset(currentPlayer->buffer, 0, sizeof(currentPlayer->buffer));

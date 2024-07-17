@@ -25,12 +25,12 @@ int main() {
         switch (winState) {
             case MENU:
                 menuWindow.run();
-                if (menuWindow.connected())
-                    winState = GAME;
+            if (menuWindow.connected())
+                winState = GAME;
             break;
             case GAME:
 
-            break;
+                break;
         }
     }
     RaylibCloseWindow();

@@ -6,20 +6,28 @@
 #ifndef MENUWINDOW_H
 #define MENUWINDOW_H
 
+#define FONT_SIZE 75
+
 #include "raylib.h"
 #include  <iostream>
+#include <cmath>
 
 
 class MenuWindow {
 private:
     bool playerConnected = false;
-    unsigned const int windowWidth;
-    unsigned const int windowHeight;
+    const int windowWidth;
+    const int windowHeight;
+    std::string connectionStatus = "Unconnected";
+
     void update();
     void calculate();
     void draw();
+    void drawConnectionStatus();
+    void drawTextField();
+    void drawButton();
 public:
-    MenuWindow(unsigned int windowWidth, unsigned int windowHeight);
+    MenuWindow(int windowWidth, int windowHeight);
     void run();
     bool connected();
 };

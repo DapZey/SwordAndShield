@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(Client main.cpp
         MenuWindow.cpp
         MenuWindow.h
+        Network.cpp
+        Player.cpp
 )
 set(WINSOCK_LIBRARIES ws2_32)
 

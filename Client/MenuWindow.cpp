@@ -16,18 +16,22 @@ void MenuWindow::update() {
         playerConnected = true;
         connectionStatus = "Connected";
     }
-    // if (textFieldSelected)
     updateTextField();
 }
 
 void MenuWindow::updateTextField() {
+    // check if selected
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+        isTxtFieldSelected = true;
+    }
+    if (!isTxtFieldSelected)
+        return;
     int key = GetCharPressed();
     if (IsKeyDown(KEY_BACKSPACE)) {
         if (!textFieldBuffer.empty()) {
             textFieldBuffer.pop_back();
         }
     }
-
     // can't add chars if >= max_length
     if (textFieldBuffer.length() >= MAX_IP_INPUT)
         return;
@@ -65,7 +69,7 @@ void MenuWindow::draw() {
     // text field
     // connect button
     BeginDrawing();
-    ClearBackground(WHITE);
+    ClearBackground(YELLOW);
     drawConnectionStatus();
     drawButton();
     drawTextField();
@@ -81,22 +85,40 @@ void MenuWindow::drawConnectionStatus() {
 }
 
 void MenuWindow::drawTextField() {
-    // draw text field outline
+    // draw text field box
     const int fieldW = ceil(windowWidth * 0.70);
     const int fieldH = FONT_SIZE; // i.e. text height
     const int fieldX = (windowWidth / 2) - (fieldW / 2);
     const int fieldY = ceil(windowHeight * 0.50);
-    DrawRectangleLines(fieldX, fieldY, fieldW, fieldH, BLACK);
+
+    if (isTxtFieldSelected)
+        // draw just the outline
+        DrawRectangleLines(fieldX, fieldY, fieldW, fieldH, RED);
+    else
+        DrawRectangle(fieldX, fieldY, fieldW, fieldH, WHITE);
 
     // draw text from text field buffer
     const int textWidth = MeasureText(textFieldBuffer.c_str(), FONT_SIZE);
     const int x = fieldX + (fieldW / 2) - (textWidth / 2);
     const int y = fieldY;
-    RaylibDrawText(textFieldBuffer.c_str(), x, y, FONT_SIZE, RED);
+    RaylibDrawText(textFieldBuffer.c_str(), x, y, FONT_SIZE, BLACK);
 }
 
 void MenuWindow::drawButton() {
+    // draw button
+    const int buttonWidth = ceil(windowWidth * 0.20);
+    const int buttonHeight = ceil(windowHeight * 0.05);
+    const int buttonX = (windowWidth / 2) - (buttonWidth / 2);
+    const int buttonY = ceil(windowHeight * 0.70);
 
+    DrawRectangle(buttonX, buttonY, buttonWidth, buttonHeight, WHITE);
+
+    // draw button text
+    std::string btnTxt = "Connect";
+    const int textW = MeasureText(btnTxt.c_str(), FONT_SIZE);
+    const int textX = buttonX + (buttonWidth / 2) - (textW / 2);
+    const int textY = buttonY;
+    RaylibDrawText(btnTxt.c_str(), textX, textY, FONT_SIZE, BLACK);
 }
 
 bool MenuWindow::connected() {

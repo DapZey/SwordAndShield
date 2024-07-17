@@ -21,6 +21,7 @@ private:
     const int windowHeight;
     std::string connectionStatus = "Unconnected";
     std::string textFieldBuffer = "255.255.255.255";
+    bool isTxtFieldSelected = false;
 
     void update();
     void updateTextField();

@@ -3,7 +3,11 @@ project(Server)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Server main.cpp)
+add_executable(Server main.cpp
+        ParsingUtils.cpp
+        Network.cpp
+        Player.cpp
+        Protocol.cpp)
 set(WINSOCK_LIBRARIES ws2_32)
 
 # Link against Winsock

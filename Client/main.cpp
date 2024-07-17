@@ -20,7 +20,11 @@ int main() {
     Network connection(ip);
     Protocol p(connection);
     while (!WindowShouldClose()) {
-        p.run();
+        bool connectionTryFlag = false;
+        if (IsKeyDown(KEY_R)){
+            connectionTryFlag = true;
+        }
+        p.run(connectionTryFlag);
         switch (winState) {
             case MENU:
                 menuWindow.run();

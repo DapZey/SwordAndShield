@@ -18,13 +18,13 @@ void Protocol::checkTry(std::string& data) {
         disconnected = false;
     }
 }
-void Protocol::run() {
+void Protocol::run(bool connectTryFlag) {
     std::string messageToSend ="";
     std::string data = network->receive();
     if (!data.empty()){
         std::cout<<data<<"\n";
     }
-    if (IsKeyDown(KEY_R) && disconnected){
+    if (connectTryFlag && disconnected){
         messageToSend += CONNECTION_TRY;
     }
     if (disconnected){

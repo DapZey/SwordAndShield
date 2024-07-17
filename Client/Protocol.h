@@ -11,10 +11,10 @@ class Protocol {
     int port_1 = PORT_1;
     int port_2 = PORT_2;
     Network* network;
-    bool disconnected = true;
 public:
+    bool disconnected = true;
     Protocol(Network& connection);
-    void run();
+    void run(bool connectTryFlag);
     void checkTry(std::string& data);
 };
 

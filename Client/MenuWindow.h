@@ -8,7 +8,9 @@
 
 #define FONT_SIZE 40
 #define MAX_IP_INPUT 15 // XXX.XXX.XXX.XXX
-
+#define CONNECTION_STATUS_U "Unconnected"
+#define CONNECTION_STATUS_C "Connected"
+#include "Protocol.h"
 #include "raylib.h"
 #include  <iostream>
 #include <cmath>
@@ -19,10 +21,10 @@ private:
     bool playerConnected = false;
     const int windowWidth;
     const int windowHeight;
-    std::string connectionStatus = "Unconnected";
+    std::string connectionStatus = CONNECTION_STATUS_U;
     std::string textFieldBuffer = "255.255.255.255";
     bool isTxtFieldSelected = false;
-
+    Protocol* protocol;
     void update();
     void updateTextField();
     void calculate();
@@ -31,7 +33,7 @@ private:
     void drawTextField();
     void drawButton();
 public:
-    MenuWindow(int windowWidth, int windowHeight);
+    MenuWindow(int windowWidth, int windowHeight, Protocol& p);
     void run();
     bool connected();
 };

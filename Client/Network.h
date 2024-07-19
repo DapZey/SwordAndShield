@@ -21,7 +21,7 @@ public:
     sockaddr_in address;
     int addressLength = sizeof(address);
     char buffer[BUFFER_SIZE];
-    Network(std::string& ip);
+    void Init(std::string& ip);
     void createSocket();
     void startup();
     std::string receive();

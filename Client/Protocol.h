@@ -10,8 +10,8 @@
 class Protocol {
     int port_1 = PORT_1;
     int port_2 = PORT_2;
-    Network* network;
 public:
+    Network* network;
     bool disconnected = true;
     Protocol(Network& connection);
     void run(bool connectTryFlag);

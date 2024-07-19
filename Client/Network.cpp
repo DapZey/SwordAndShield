@@ -1,6 +1,6 @@
 #include "Network.h"
 
-Network::Network(std::string& ip) {
+void Network::Init(std::string& ip) {
     startup();
     address.sin_family = AF_INET;
     address.sin_port = htons(PORT_1);

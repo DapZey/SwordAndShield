@@ -7,24 +7,21 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 #define DEFAULT_IP "127.0.0.1"
+#define DEFAULT_FPS_TARGET 1000
 
 enum windowState {MENU, GAME};
 
 int main() {
     windowState winState = MENU;
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "SwordAndSheild");
+    SetTargetFPS(DEFAULT_FPS_TARGET);
+    Network n;
+    Protocol p(n);
     // init window vars
-    MenuWindow menuWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
-    std::string ip = DEFAULT_IP;
-    SetTargetFPS(60);
-    Network connection(ip);
-    Protocol p(connection);
+    MenuWindow menuWindow(WINDOW_WIDTH, WINDOW_HEIGHT, p);
     while (!WindowShouldClose()) {
-        bool connectionTryFlag = false;
-        if (IsKeyDown(KEY_R)){
-            connectionTryFlag = true;
-        }
-        p.run(connectionTryFlag);
+//        int x = GetFPS();
+//        std::cout<<x<<"\n";
         switch (winState) {
             case MENU:
                 menuWindow.run();
@@ -32,7 +29,7 @@ int main() {
                 winState = GAME;
             break;
             case GAME:
-
+                menuWindow.run();
                 break;
         }
     }

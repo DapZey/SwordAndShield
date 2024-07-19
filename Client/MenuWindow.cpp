@@ -7,14 +7,27 @@
 #include <vector>
 #include <external/glad.h>
 
-MenuWindow::MenuWindow(const int windowWidth, const int windowHeight)
+MenuWindow::MenuWindow(const int windowWidth, const int windowHeight, Protocol& p)
     : windowWidth(windowWidth), windowHeight(windowHeight) {
+    this->protocol = &p;
 }
 
 void MenuWindow::update() {
-    if (IsKeyDown(KEY_SPACE)) {
+    bool connectionTryFlag = false;
+    if (IsKeyDown(KEY_R)){
+        std::string ip = DEFAULT_IP;
+        this->protocol->network->Init(ip);
+    }
+    if (IsKeyDown(KEY_SPACE)){
+        connectionTryFlag = true;
+    }
+    this->protocol->run(connectionTryFlag);
+    if (!this->protocol->disconnected){
         playerConnected = true;
-        connectionStatus = "Connected";
+        connectionStatus = CONNECTION_STATUS_C;
+    }
+    else {
+        initialized = false;
     }
     updateTextField();
 }
@@ -122,7 +135,7 @@ void MenuWindow::drawButton() {
 }
 
 bool MenuWindow::connected() {
-    return false;
+    return playerConnected;
 }
 
 void MenuWindow::run() {

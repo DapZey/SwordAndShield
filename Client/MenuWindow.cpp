@@ -26,9 +26,6 @@ void MenuWindow::update() {
         playerConnected = true;
         connectionStatus = CONNECTION_STATUS_C;
     }
-    else {
-        initialized = false;
-    }
     updateTextField();
 }
 

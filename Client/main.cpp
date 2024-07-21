@@ -12,6 +12,7 @@
 enum windowState {MENU, GAME};
 
 int main() {
+    std:: cout << "test\n";
     windowState winState = MENU;
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "SwordAndSheild");
     SetTargetFPS(DEFAULT_FPS_TARGET);

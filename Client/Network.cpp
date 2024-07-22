@@ -5,7 +5,7 @@ void Network::Init(std::string& ip) {
     address.sin_family = AF_INET;
     address.sin_port = htons(PORT_1);
     if (inet_pton(AF_INET, ip.c_str(), &address.sin_addr) != 1) {
-        std::cout<<"error connecting";
+        std::cout<<"error connecting\n";
     }
     createSocket();
 }

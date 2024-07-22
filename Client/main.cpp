@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include "Network.h"
 #include "Protocol.h"
+#include "GameWindow.h"
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 #define DEFAULT_IP "127.0.0.1"
@@ -20,6 +21,7 @@ int main() {
     Protocol p(n);
     // init window vars
     MenuWindow menuWindow(WINDOW_WIDTH, WINDOW_HEIGHT, p);
+    GameWindow gameWindow(p);
     while (!WindowShouldClose()) {
 //        int x = GetFPS();
 //        std::cout<<x<<"\n";
@@ -30,7 +32,7 @@ int main() {
                 winState = GAME;
             break;
             case GAME:
-                menuWindow.run();
+                gameWindow.run();
                 break;
         }
     }

@@ -11,6 +11,10 @@ add_executable(Client main.cpp
         Protocol.cpp
         ParsingUtils.cpp
         Network.h
+        GameWindow.cpp
+        GameWindow.h
+        MathUtils.cpp
+        MathUtils.h
 )
 set(WINSOCK_LIBRARIES ws2_32)
 

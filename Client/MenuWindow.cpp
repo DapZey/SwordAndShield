@@ -3,7 +3,7 @@
 //
 
 #include "MenuWindow.h"
-
+#include "MathUtils.h"
 #include <vector>
 #include <external/glad.h>
 
@@ -14,12 +14,15 @@ MenuWindow::MenuWindow(const int windowWidth, const int windowHeight, Protocol& 
 
 void MenuWindow::update() {
     bool connectionTryFlag = false;
-    if (IsKeyDown(KEY_R)){
-        std::string ip = DEFAULT_IP;
-        this->protocol->network->Init(ip);
-    }
-    if (IsKeyDown(KEY_SPACE)){
-        connectionTryFlag = true;
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) || IsKeyDown(KEY_ENTER)){
+        if (MathUtils::pointWithinBoundsOfSquare({buttonX,buttonY,buttonWidth,buttonHeight}, GetMousePosition())|| IsKeyDown(KEY_ENTER)) {
+            connectionTryFlag = true;
+            if (!textFieldToggle) {
+                std::string ip = textFieldBuffer;
+                this->protocol->network->Init(ip);
+                textFieldToggle = true;
+            }
+        }
     }
     this->protocol->run(connectionTryFlag);
     if (!this->protocol->disconnected){
@@ -32,11 +35,19 @@ void MenuWindow::update() {
 void MenuWindow::updateTextField() {
     // check if selected
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-        isTxtFieldSelected = true;
+        if (MathUtils::pointWithinBoundsOfSquare({fieldX, fieldY, fieldW, fieldH},GetMousePosition())){
+            isTxtFieldSelected = true;
+        }
+        else {
+            isTxtFieldSelected = false;
+        }
     }
     if (!isTxtFieldSelected)
         return;
     int key = GetCharPressed();
+    if (key != 0){
+        textFieldToggle = false;
+    }
     if (IsKeyDown(KEY_BACKSPACE)) {
         if (!textFieldBuffer.empty()) {
             textFieldBuffer.pop_back();
@@ -96,10 +107,10 @@ void MenuWindow::drawConnectionStatus() {
 
 void MenuWindow::drawTextField() {
     // draw text field box
-    const int fieldW = ceil(windowWidth * 0.70);
-    const int fieldH = FONT_SIZE; // i.e. text height
-    const int fieldX = (windowWidth / 2) - (fieldW / 2);
-    const int fieldY = ceil(windowHeight * 0.50);
+    fieldW = ceil(windowWidth * 0.70);
+    fieldH = FONT_SIZE; // i.e. text height
+    fieldX = (windowWidth / 2) - (fieldW / 2);
+    fieldY = ceil(windowHeight * 0.50);
 
     if (isTxtFieldSelected)
         // draw just the outline
@@ -116,10 +127,10 @@ void MenuWindow::drawTextField() {
 
 void MenuWindow::drawButton() {
     // draw button
-    const int buttonWidth = ceil(windowWidth * 0.20);
-    const int buttonHeight = ceil(windowHeight * 0.05);
-    const int buttonX = (windowWidth / 2) - (buttonWidth / 2);
-    const int buttonY = ceil(windowHeight * 0.70);
+    buttonWidth = ceil(windowWidth * 0.20);
+    buttonHeight = ceil(windowHeight * 0.05);
+    buttonX = (windowWidth / 2) - (buttonWidth / 2);
+    buttonY = ceil(windowHeight * 0.70);
 
     DrawRectangle(buttonX, buttonY, buttonWidth, buttonHeight, WHITE);
 

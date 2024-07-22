@@ -18,11 +18,20 @@
 
 class MenuWindow {
 private:
+    float fieldW;
+    float fieldH;
+    float fieldX;
+    float fieldY;
+    float buttonWidth;
+    float buttonHeight;
+    float buttonX;
+    float buttonY;
     bool playerConnected = false;
     const int windowWidth;
     const int windowHeight;
+    bool textFieldToggle = false;
     std::string connectionStatus = CONNECTION_STATUS_U;
-    std::string textFieldBuffer = "255.255.255.255";
+    std::string textFieldBuffer = DEFAULT_IP;
     bool isTxtFieldSelected = false;
     Protocol* protocol;
     void update();

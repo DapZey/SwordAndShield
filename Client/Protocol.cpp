@@ -18,7 +18,23 @@ void Protocol::checkTry(std::string& data) {
         disconnected = false;
     }
 }
-void Protocol::run(bool flag) {
+void Protocol::GameRun(bool levelSwitchFlag, int level) {
+    std::string messageToSend ="";
+    std::string data = network->receive();
+    if (levelSwitchFlag){
+        std::string x = LEVEL_SWITCH + std::to_string(level) + LEVEL_SWITCH;
+        std::cout<<x<<"\n";
+        messageToSend += x;
+    }
+    if (!data.empty()){
+        std::cout<<data<<"\n";
+    }
+    if (!messageToSend.empty()){
+        network->send(messageToSend);
+    }
+    memset(network->buffer, 0, sizeof(network->buffer));
+}
+void Protocol::MenuRun(bool flag) {
     std::string messageToSend ="";
     std::string data = network->receive();
     if (!data.empty()){

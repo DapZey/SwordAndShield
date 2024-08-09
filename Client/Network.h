@@ -12,6 +12,7 @@
 #define CONNECTION_TRY '?'
 #define CONNECTION_FAIL '!'
 #define CONNECTION_SUCCEED '^'
+#define LEVEL_SWITCH '|'
 #define BUFFER_SIZE 40
 class Network {
     int iResult;

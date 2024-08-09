@@ -11,6 +11,7 @@
 class GameWindow {
 public:
     World world;
+    int prevLevel = 0;
     Protocol* protocol;
     void draw();
     void calculate();

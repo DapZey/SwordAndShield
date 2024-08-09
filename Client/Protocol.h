@@ -16,7 +16,8 @@ public:
     Network* network;
     void preConnection(bool flag);
     Protocol(Network& connection);
-    void run(bool connectTryFlag);
+    void MenuRun(bool connectTryFlag);
+    void GameRun(bool levelSwitchFlag, int level);
     void checkTry(std::string& data);
 };
 

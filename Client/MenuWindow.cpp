@@ -24,7 +24,7 @@ void MenuWindow::update() {
             }
         }
     }
-    this->protocol->run(connectionTryFlag);
+    this->protocol->MenuRun(connectionTryFlag);
     if (!this->protocol->disconnected){
         playerConnected = true;
         connectionStatus = CONNECTION_STATUS_C;

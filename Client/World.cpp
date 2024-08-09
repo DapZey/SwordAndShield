@@ -11,7 +11,7 @@ World::World() {
     currentLevel = levelMap[currentLevelId];
 }
 
-void World::SwitchLevel() {
+int World::SwitchLevel() {
     if (IsKeyDown(KEY_RIGHT)){
         if (currentLevelId < levelLimitUpper){
             currentLevelId++;
@@ -24,4 +24,5 @@ void World::SwitchLevel() {
             currentLevel = levelMap[currentLevelId];
         }
     }
+    return currentLevelId;
 }

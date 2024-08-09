@@ -9,14 +9,20 @@ GameWindow::GameWindow(Protocol &p) {
 void GameWindow::draw() {
     BeginDrawing();
     this->world.currentLevel->render();
-    std::cout<<world.currentLevel->playerSpawnPoint.x<<"\n";
     ClearBackground(WHITE);
     EndDrawing();
 }
 void GameWindow::calculate() {
-    world.SwitchLevel();
 }
-void GameWindow::update() {}
+void GameWindow::update() {
+    int level = world.SwitchLevel();
+    bool levelFlag = false;
+    if (prevLevel != level){
+        levelFlag = true;
+        prevLevel = level;
+    }
+    this->protocol->GameRun(levelFlag,level);
+}
 void GameWindow::run(){
     update();
     calculate();

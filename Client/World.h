@@ -16,7 +16,7 @@ class World {
 public:
     Level* currentLevel;
     World();
-    void SwitchLevel();
+    int SwitchLevel();
 };
 
 

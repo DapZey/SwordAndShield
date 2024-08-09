@@ -15,6 +15,11 @@ add_executable(Client main.cpp
         GameWindow.h
         MathUtils.cpp
         MathUtils.h
+        World.cpp
+        World.h
+        World.h
+        Level.cpp
+        Level.h
 )
 set(WINSOCK_LIBRARIES ws2_32)
 

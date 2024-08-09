@@ -8,10 +8,14 @@ GameWindow::GameWindow(Protocol &p) {
 }
 void GameWindow::draw() {
     BeginDrawing();
+    this->world.currentLevel->render();
+    std::cout<<world.currentLevel->playerSpawnPoint.x<<"\n";
     ClearBackground(WHITE);
     EndDrawing();
 }
-void GameWindow::calculate() {}
+void GameWindow::calculate() {
+    world.SwitchLevel();
+}
 void GameWindow::update() {}
 void GameWindow::run(){
     update();

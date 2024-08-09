@@ -7,8 +7,10 @@
 
 #include "raylib.h"
 #include "Protocol.h"
+#include "World.h"
 class GameWindow {
 public:
+    World world;
     Protocol* protocol;
     void draw();
     void calculate();

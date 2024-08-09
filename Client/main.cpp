@@ -13,7 +13,6 @@
 enum windowState {MENU, GAME};
 
 int main() {
-    std:: cout << "test\n";
     windowState winState = MENU;
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "SwordAndSheild");
     SetTargetFPS(DEFAULT_FPS_TARGET);
@@ -23,8 +22,6 @@ int main() {
     MenuWindow menuWindow(WINDOW_WIDTH, WINDOW_HEIGHT, p);
     GameWindow gameWindow(p);
     while (!WindowShouldClose()) {
-//        int x = GetFPS();
-//        std::cout<<x<<"\n";
         switch (winState) {
             case MENU:
                 menuWindow.run();

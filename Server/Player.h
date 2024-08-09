@@ -10,6 +10,7 @@
 class Player {
     bool init = false;
 public:
+    int levelID = 0;
     SOCKET socket;
     sockaddr_in address;
     int addressLength = sizeof(address);

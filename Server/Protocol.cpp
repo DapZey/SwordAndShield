@@ -34,6 +34,13 @@ void Protocol::Run() {
         if (!data.empty()){
             std::cout<<data<<"\n";
         }
+        std::string level = ParsingUtils::extractSubstringBetweenDelimiters(data, '|');
+        if (!level.empty()){
+            std::cout<<level<<"\n";
+            int x = std::stoi(level);
+            currentPlayer->levelID = x;
+            std::cout<<"player level updated to: "<<currentPlayer->levelID<<"\n";
+        }
         tryConnection(data,*currentPlayer,messageToSendCurrent);
         if (!messageToSendCurrent.empty()){
             network.SendMessageTo(messageToSendCurrent,*currentPlayer);

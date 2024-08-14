@@ -5,17 +5,19 @@
 #include "GameWindow.h"
 GameWindow::GameWindow(Protocol &p) {
     this->protocol = &p;
+    this->world.user.activeWorldPosition = this->world.currentLevel->playerSpawnPoint;
 }
 void GameWindow::draw() {
     BeginDrawing();
     this->world.currentLevel->render();
+    this->world.user.draw();
     ClearBackground(WHITE);
     EndDrawing();
 }
 void GameWindow::calculate() {
 }
 void GameWindow::update() {
-    int level = world.SwitchLevel();
+    int level = world.SwitchLevel(); //TO BE CHANGED ONCE DOORS ARE MADE
     bool levelFlag = false;
     if (prevLevel != level){
         levelFlag = true;

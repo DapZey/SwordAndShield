@@ -6,6 +6,7 @@
 #define CLIENT_WORLD_H
 #include <map>
 #include "Level.h"
+#include "Player.h"
 class World {
     std::map<int, Level*> levelMap;
     int currentLevelId = 0;
@@ -14,6 +15,8 @@ class World {
     Level home;
     Level level1;
 public:
+    Player user;
+    Player other;
     Level* currentLevel;
     World();
     int SwitchLevel();

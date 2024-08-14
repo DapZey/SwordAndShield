@@ -3,3 +3,7 @@
 //
 
 #include "Player.h"
+
+void Player::draw() {
+    DrawRectangle(activeWorldPosition.x,activeWorldPosition.y,PLAYER_SIZE, PLAYER_SIZE,BLUE);
+}

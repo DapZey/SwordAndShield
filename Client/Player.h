@@ -5,12 +5,54 @@
 #ifndef CLIENT_PLAYER_H
 #define CLIENT_PLAYER_H
 #include "raylib.h"
+#include "MathUtils.h"
+#include "chrono"
+#include "vector"
+#include "Mapper.h"
 #define PLAYER_SIZE 50
-enum direction{
+#define MOVEMENT_SPEED 15
+enum Direction{
     up,down,left,right,upRight,upLeft,downRight,downLeft,idle
 };
 class Player {
-    static Vector2 directionMapper(direction d){
+public:
+    Vector2 activeWorldPosition = {0,0};
+    Vector2 smoothedWorldPosition = {0,0};
+    int level;
+    Direction activeDirection = idle;
+    void draw();
+    int move();
+    static Direction vectorMapper(Vector2 v) {
+        if (v.x == 0 && v.y == 0) {
+            return idle;
+        }
+        if (v.x == 0 && v.y == 1) {
+            return down;
+        }
+        if (v.x == -1 && v.y == 0) {
+            return left;
+        }
+        if (v.x == 1 && v.y == 0) {
+            return right;
+        }
+        if (v.x == 0 && v.y == -1) {
+            return up;
+        }
+        if (v.x == -1 && v.y == -1) {
+            return upLeft;
+        }
+        if (v.x == 1 && v.y == -1) {
+            return upRight;
+        }
+        if (v.x == 1 && v.y == 1) {
+            return downRight;
+        }
+        if (v.x == -1 && v.y == 1) {
+            return downLeft;
+        }
+        return idle;
+    }
+    static Vector2 directionMapper(Direction d){
         if (d == idle){
             return {0,0};
         }
@@ -40,11 +82,6 @@ class Player {
         }
         return {0,0};
     }
-public:
-    Vector2 activeWorldPosition = {0,0};
-    int level;
-    void draw();
-    void move();
 };
 
 

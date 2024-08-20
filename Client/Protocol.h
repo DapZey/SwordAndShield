@@ -7,7 +7,7 @@
 #define DEFAULT_IP "127.0.0.1"
 #include "Network.h"
 #include "ParsingUtils.h"
-
+#include "raylib.h"
 class Protocol {
     int port_1 = PORT_1;
     int port_2 = PORT_2;
@@ -17,7 +17,7 @@ public:
     void preConnection(bool flag);
     Protocol(Network& connection);
     void MenuRun(bool connectTryFlag);
-    void GameRun(bool levelSwitchFlag, int level);
+    void GameRun(bool levelSwitchFlag, int level, int moveFlag, Vector2 dir);
     void checkTry(std::string& data);
 };
 

@@ -39,7 +39,9 @@ void Protocol::Run() {
             std::cout<<level<<"\n";
             int x = std::stoi(level);
             currentPlayer->levelID = x;
+            currentPlayer->spawnPointMapper();
             std::cout<<"player level updated to: "<<currentPlayer->levelID<<"\n";
+            std::cout<<currentPlayer->x<<"\n";
         }
         tryConnection(data,*currentPlayer,messageToSendCurrent);
         if (!messageToSendCurrent.empty()){

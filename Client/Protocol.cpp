@@ -18,13 +18,19 @@ void Protocol::checkTry(std::string& data) {
         disconnected = false;
     }
 }
-void Protocol::GameRun(bool levelSwitchFlag, int level) {
+void Protocol::GameRun(bool levelSwitchFlag, int level, int moveFlag, Vector2 dir) {
     std::string messageToSend ="";
     std::string data = network->receive();
     if (levelSwitchFlag){
         std::string x = LEVEL_SWITCH + std::to_string(level) + LEVEL_SWITCH;
         std::cout<<x<<"\n";
         messageToSend += x;
+    }
+    if (moveFlag){
+        std::string x = PLAYER_DIR + std::to_string(dir.x) + "," +std::to_string(dir.y)+ PLAYER_DIR;
+        messageToSend += x;
+        std::cout<<dir.x<<",";
+        std::cout<<dir.y<<"\n";
     }
     if (!data.empty()){
         std::cout<<data<<"\n";

@@ -9,6 +9,17 @@
 #include "math.h"
 class MathUtils {
 public:
+    static float Vector2Distance(const Vector2& a, const Vector2& b) {
+        float dx = b.x - a.x;
+        float dy = b.y - a.y;
+        return sqrt(dx * dx + dy * dy);
+    }
+    static Vector2 Vector2Lerp(const Vector2& a, const Vector2& b, float t) {
+        return {
+                a.x + (b.x - a.x) * t,
+                a.y + (b.y - a.y) * t
+        };
+    }
     static bool pointWithinBoundsOfSquare(RaylibRectangle rect, Vector2 point) {
         return (point.x >= rect.x &&
                 point.x <= (rect.x + rect.width) &&

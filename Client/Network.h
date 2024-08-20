@@ -13,6 +13,7 @@
 #define CONNECTION_FAIL '!'
 #define CONNECTION_SUCCEED '^'
 #define LEVEL_SWITCH '|'
+#define PLAYER_DIR '*'
 #define BUFFER_SIZE 40
 class Network {
     int iResult;

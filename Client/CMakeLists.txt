@@ -20,6 +20,8 @@ add_executable(Client main.cpp
         World.h
         Level.cpp
         Level.h
+        Mapper.cpp
+        Mapper.h
 )
 set(WINSOCK_LIBRARIES ws2_32)
 

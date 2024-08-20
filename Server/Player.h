@@ -16,6 +16,9 @@ public:
     int addressLength = sizeof(address);
     char buffer[BUFFER_SIZE];
     bool establishConnection();
+    void spawnPointMapper();
+    int x = 50;
+    int y = 50;
 };
 
 

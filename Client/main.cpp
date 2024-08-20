@@ -9,11 +9,10 @@
 #define WINDOW_HEIGHT 720
 #define DEFAULT_IP "127.0.0.1"
 #define DEFAULT_FPS_TARGET 1000
-
 enum windowState {MENU, GAME};
 
 int main() {
-    windowState winState = MENU;
+    windowState winState = GAME;//should be menu when connecting
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "SwordAndSheild");
     SetTargetFPS(DEFAULT_FPS_TARGET);
     Network n;

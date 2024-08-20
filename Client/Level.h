@@ -11,6 +11,8 @@ class Level {
 public:
     void setSpawnPoint(Vector2 point);
     Vector2 playerSpawnPoint;
+    RaylibRectangle exit;
+    void setExit(RaylibRectangle rectangle);
     void render();
 };
 

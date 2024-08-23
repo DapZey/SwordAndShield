@@ -7,6 +7,10 @@
 
 #include "winsock2.h"
 #define BUFFER_SIZE 40
+struct Vector2{
+    float x;
+    float y;
+};
 class Player {
     bool init = false;
 public:
@@ -17,8 +21,11 @@ public:
     char buffer[BUFFER_SIZE];
     bool establishConnection();
     void spawnPointMapper();
-    int x = 50;
-    int y = 50;
+    float x = 50;
+    float xPrev = 50;
+    float y = 50;
+    Vector2 direction = {0,0};
+    void move();
 };
 
 

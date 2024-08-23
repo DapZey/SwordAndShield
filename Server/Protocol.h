@@ -7,6 +7,7 @@
 #include "Network.h"
 #include "Player.h"
 #include "ParsingUtils.h"
+#include "World.h"
 #define PORT_1  54000
 #define PORT_2 54001
 #define PLAYER_COUNT 2
@@ -18,6 +19,7 @@ class Protocol {
     int port_2 = PORT_2;
     Network network;
     Player players[2];
+    World world;
     void tryConnection(std::string& data,Player& currentPlayer, std::string& messageToSendCurrent);
 public:
     ~Protocol();

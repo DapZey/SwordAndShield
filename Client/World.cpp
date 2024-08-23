@@ -12,6 +12,7 @@ World::World() {
     levelMap[1] = &level1;
     currentLevel = levelMap[currentLevelId];
     user.level = 0;
+    other.level = 0;
 }
 
 int World::SwitchLevel() {

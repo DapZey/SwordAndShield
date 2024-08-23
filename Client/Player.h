@@ -18,7 +18,7 @@ class Player {
 public:
     Vector2 activeWorldPosition = {0,0};
     Vector2 smoothedWorldPosition = {0,0};
-    int level;
+    int level = 0;
     Direction activeDirection = idle;
     void draw();
     int move();

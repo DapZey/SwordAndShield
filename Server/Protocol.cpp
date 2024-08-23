@@ -3,9 +3,11 @@
 //
 
 #include "Protocol.h"
+#include "MathUtils.h"
 Protocol::Protocol() {
     network.CreateSocket(players[0],port_1);
     network.CreateSocket(players[1],port_2);
+    world.setPlayers(players[0], players[1]);
 }
 Protocol::~Protocol(){
     network.Kill(players[0]);
@@ -30,9 +32,19 @@ void Protocol::Run() {
         Player* otherPlayer;
         otherPlayer = &players[otherPlayerIndex];
         std::string messageToSendCurrent ="";
+        std::string messageToSendOther = "";
         std::string data = network.ReceiveMessageFrom(*currentPlayer);
         if (!data.empty()){
-            std::cout<<data<<"\n";
+//            std::cout<<data<<"\n";
+        }
+        std::string direction = ParsingUtils::extractSubstringBetweenDelimiters(data, '*');
+        if (!direction.empty()){
+            Vector2 dirVec;
+            std::vector<std::string> dirSplit = ParsingUtils::splitstringbychar(direction, ",");
+            dirVec.x = std::stof(dirSplit[0]);
+            dirVec.y = std::stof(dirSplit[1]);
+            dirVec = MathUtils::normalize(dirVec);
+            currentPlayer->direction = dirVec;
         }
         std::string level = ParsingUtils::extractSubstringBetweenDelimiters(data, '|');
         if (!level.empty()){
@@ -42,11 +54,16 @@ void Protocol::Run() {
             currentPlayer->spawnPointMapper();
             std::cout<<"player level updated to: "<<currentPlayer->levelID<<"\n";
             std::cout<<currentPlayer->x<<"\n";
+            messageToSendOther += '|' + level + '|';
         }
         tryConnection(data,*currentPlayer,messageToSendCurrent);
         if (!messageToSendCurrent.empty()){
             network.SendMessageTo(messageToSendCurrent,*currentPlayer);
         }
+        if (!messageToSendOther.empty()){
+            network.SendMessageTo(messageToSendOther, *otherPlayer);
+        }
         memset(currentPlayer->buffer, 0, sizeof(currentPlayer->buffer));
     }
+    world.run();
 }

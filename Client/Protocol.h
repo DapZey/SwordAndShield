@@ -8,6 +8,7 @@
 #include "Network.h"
 #include "ParsingUtils.h"
 #include "raylib.h"
+#include "Player.h"
 class Protocol {
     int port_1 = PORT_1;
     int port_2 = PORT_2;
@@ -17,7 +18,7 @@ public:
     void preConnection(bool flag);
     Protocol(Network& connection);
     void MenuRun(bool connectTryFlag);
-    void GameRun(bool levelSwitchFlag, int level, int moveFlag, Vector2 dir);
+    void GameRun(bool levelSwitchFlag, int level, int moveFlag, Vector2 dir, Player& user, Player& other);
     void checkTry(std::string& data);
 };
 

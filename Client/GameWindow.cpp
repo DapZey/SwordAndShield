@@ -22,6 +22,9 @@ void GameWindow::draw() {
     BeginMode2D(playerFollowCamera);
     this->world.currentLevel->render();
     this->world.user.draw();
+    if (this->world.user.level == this->world.other.level){
+        this->world.other.draw();
+    }
     EndMode2D();
     EndDrawing();
 }
@@ -53,7 +56,7 @@ void GameWindow::update() {
         levelFlag = true;
         prevLevel = level;
     }
-    this->protocol->GameRun(levelFlag,level, moveFlag, dir);
+    this->protocol->GameRun(levelFlag,level, moveFlag, dir, world.user, world.other);
 }
 void GameWindow::run(){
     update();

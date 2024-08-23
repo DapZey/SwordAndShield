@@ -35,5 +35,8 @@ int Player::move() {
     if (MathUtils::Vector2Distance(smoothedWorldPosition, activeWorldPosition) < LERP_DISTANCE_THRESHOLD) {
         smoothedWorldPosition = activeWorldPosition;
     }
+    if (inputDirection.x != 0){
+        std::cout<<activeWorldPosition.x<<"\n";
+    }
     return changed;
 }

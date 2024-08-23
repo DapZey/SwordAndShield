@@ -39,6 +39,16 @@ void Protocol::GameRun(bool levelSwitchFlag, int level, int moveFlag, Vector2 di
         std::string otherLevel = ParsingUtils::extractSubstringBetweenDelimiters(data, '|');
         other.level = std::stoi(otherLevel);
     }
+    if (ParsingUtils::containsChar(data,ACTIVE_PLAYER_CORRECTION)){
+        std::string coords = ParsingUtils::extractSubstringBetweenDelimiters(data, ACTIVE_PLAYER_CORRECTION);
+        if (!coords.empty()){
+            Vector2 coordsVec;
+            std::vector<std::string> coordsSplit = ParsingUtils::splitstringbychar(coords, ",");
+            coordsVec.x = std::stof(coordsSplit[0]);
+            coordsVec.y = std::stof(coordsSplit[1]);
+            user.activeWorldPosition = coordsVec;
+        }
+    }
     if (!messageToSend.empty()){
         network->send(messageToSend);
     }

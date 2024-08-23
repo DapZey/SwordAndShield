@@ -4,13 +4,10 @@
 
 #include "Player.h"
 #include "iostream"
+#define MOVEMENT_SPEED 15
 void Player::move() {
-    this->x += this->direction.x;
-    if (xPrev != x){
-        std::cout<<xPrev<<"\n";
-        xPrev = x;
-    }
-    this->y += this->direction.y;
+    this->x += this->direction.x* MOVEMENT_SPEED;
+    this->y += this->direction.y* MOVEMENT_SPEED;
 }
 void Player::spawnPointMapper() {
     if (levelID == 0){

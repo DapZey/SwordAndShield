@@ -12,8 +12,8 @@ struct Vector2{
     float y;
 };
 class Player {
-    bool init = false;
 public:
+    bool init = false;
     int levelID = 0;
     SOCKET socket;
     sockaddr_in address;
@@ -22,7 +22,6 @@ public:
     bool establishConnection();
     void spawnPointMapper();
     float x = 50;
-    float xPrev = 50;
     float y = 50;
     Vector2 direction = {0,0};
     void move();

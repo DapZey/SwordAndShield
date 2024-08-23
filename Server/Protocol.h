@@ -15,6 +15,8 @@
 #define CONNECTION_FAIL '!'
 #define CONNECTION_SUCCEED '^'
 class Protocol {
+    std::chrono::time_point<std::chrono::steady_clock> protocolTime = std::chrono::steady_clock::now();
+    std::chrono::time_point<std::chrono::steady_clock> playerCorrectionTime = std::chrono::steady_clock::now();
     int port_1 = PORT_1;
     int port_2 = PORT_2;
     Network network;
@@ -25,6 +27,7 @@ public:
     ~Protocol();
     Protocol();
     void Run();
+    void sendCorrection(Player& p,std::string& toSend, std::string& toAdd);
 };
 
 

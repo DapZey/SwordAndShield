@@ -14,6 +14,9 @@
 #define CONNECTION_SUCCEED '^'
 #define LEVEL_SWITCH '|'
 #define PLAYER_DIR '*'
+#define ACTIVE_PLAYER_CORRECTION '~'
+#define OTHER_PLAYER_DIRECTION '#'
+#define OTHER_PLAYER_POSITION '$'
 #define BUFFER_SIZE 40
 class Network {
     int iResult;

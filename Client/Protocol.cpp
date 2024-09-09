@@ -27,7 +27,7 @@ void Protocol::GameRun(bool levelSwitchFlag, int level, int moveFlag, Vector2 di
         messageToSend += x;
     }
     if (moveFlag){
-        std::string x = PLAYER_DIR + std::to_string(dir.x) + "," +std::to_string(dir.y)+ PLAYER_DIR;
+        std::string x = PLAYER_DIR + std::to_string((int)dir.x) + "," +std::to_string((int)dir.y)+ PLAYER_DIR;
         messageToSend += x;
 //        std::cout<<dir.x<<",";
 //        std::cout<<dir.y<<"\n";
@@ -46,7 +46,29 @@ void Protocol::GameRun(bool levelSwitchFlag, int level, int moveFlag, Vector2 di
             std::vector<std::string> coordsSplit = ParsingUtils::splitstringbychar(coords, ",");
             coordsVec.x = std::stof(coordsSplit[0]);
             coordsVec.y = std::stof(coordsSplit[1]);
+            std::cout<<coordsVec.x<<"\n";
+            std::cout<<coordsVec.y<<"\n";
             user.activeWorldPosition = coordsVec;
+        }
+    }
+    if (ParsingUtils::containsChar(data,OTHER_PLAYER_DIRECTION)){
+        std::string coords = ParsingUtils::extractSubstringBetweenDelimiters(data, OTHER_PLAYER_DIRECTION);
+        if (!coords.empty()){
+            Vector2 coordsVec;
+            std::vector<std::string> coordsSplit = ParsingUtils::splitstringbychar(coords, ",");
+            coordsVec.x = std::stof(coordsSplit[0]);
+            coordsVec.y = std::stof(coordsSplit[1]);
+            other.activeDirection = Player::vectorMapper(coordsVec);
+        }
+    }
+    if (ParsingUtils::containsChar(data,OTHER_PLAYER_POSITION)){
+        std::string coords = ParsingUtils::extractSubstringBetweenDelimiters(data, OTHER_PLAYER_POSITION);
+        if (!coords.empty()){
+            Vector2 coordsVec;
+            std::vector<std::string> coordsSplit = ParsingUtils::splitstringbychar(coords, ",");
+            coordsVec.x = std::stof(coordsSplit[0]);
+            coordsVec.y = std::stof(coordsSplit[1]);
+            other.activeWorldPosition = coordsVec;
         }
     }
     if (!messageToSend.empty()){
@@ -60,8 +82,9 @@ void Protocol::MenuRun(bool flag) {
     if (!data.empty()){
         std::cout<<data<<"\n";
     }
-    if (flag && disconnected){
+    if (flag && disconnected && connectionTries>0){
         messageToSend += CONNECTION_TRY;
+        connectionTries--;
     }
     if (disconnected){
         checkTry(data);

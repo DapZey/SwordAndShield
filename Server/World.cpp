@@ -5,10 +5,12 @@
 #include "World.h"
 #include "math.h"
 #include "iostream"
-#define TICK_RATE_MS 16
+#define TICK_RATE_MS 6
 void World::setPlayers(Player& p1, Player& p2) {
     this->player1 = &p1;
+    p1.id = 0;
     this->player2 = &p2;
+    p2.id = 1;
 }
 void World::run() {
     std::chrono::time_point<std::chrono::steady_clock> currentFrameTime = std::chrono::steady_clock::now();
@@ -22,8 +24,5 @@ void World::run() {
     for (int i = 0; i < ticksPassed; i++){
         player1->move();
         player2->move();
-        if (player1->direction.x != 0){
-            std::cout<<player1->x<<"\n";
-        }
     }
 }

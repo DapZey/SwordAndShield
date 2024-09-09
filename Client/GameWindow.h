@@ -4,7 +4,7 @@
 
 #ifndef CLIENT_GAMEWINDOW_H
 #define CLIENT_GAMEWINDOW_H
-#define TICK_RATE_MS 16
+#define TICK_RATE_MS 6
 #include "raylib.h"
 #include "Protocol.h"
 #include "World.h"

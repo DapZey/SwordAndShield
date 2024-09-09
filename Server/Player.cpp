@@ -4,7 +4,8 @@
 
 #include "Player.h"
 #include "iostream"
-#define MOVEMENT_SPEED 15
+#include "MathUtils.h"
+#define MOVEMENT_SPEED 5
 void Player::move() {
     this->x += this->direction.x* MOVEMENT_SPEED;
     this->y += this->direction.y* MOVEMENT_SPEED;

@@ -11,9 +11,9 @@ class Network {
     int iResult;
     WSADATA wsadata;
 public:
-    Network();
-    void SendMessageTo(const std::string& s, Player& p);
     std::string ReceiveMessageFrom(Player& p);
+    Network();
+    void SendMessageTo(const std::string& s, Player& p, Player & o);
     void CreateSocket(Player& player, const int& port);
     bool SetNonBlocking(SOCKET& sock);
     bool BindSocketToPort(Player& p, const int& port);

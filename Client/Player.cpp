@@ -5,9 +5,18 @@
 #include "Player.h"
 #define PLAYER_LERP_RATE 0.5f
 #define LERP_DISTANCE_THRESHOLD 1.0f
-#include "iostream"
 void Player::draw() {
-    DrawRectangle(smoothedWorldPosition.x,smoothedWorldPosition.y,PLAYER_SIZE, PLAYER_SIZE,BLUE);
+    DrawTexturePro(movement,{0,0,62,62},{smoothedWorldPosition.x,smoothedWorldPosition.y,PLAYER_SIZE*4, PLAYER_SIZE*4},{0,0},0,WHITE);
+//    DrawRectangle((int)smoothedWorldPosition.x,(int)smoothedWorldPosition.y,PLAYER_SIZE, PLAYER_SIZE,BLUE);
+}
+void Player::drawStatic() {
+//    DrawRectangle((int)activeWorldPosition.x,(int)activeWorldPosition.y,PLAYER_SIZE, PLAYER_SIZE,BLUE);
+    DrawTexturePro(movement,{0,0,52,52},{activeWorldPosition.x,activeWorldPosition.y,PLAYER_SIZE * 4, PLAYER_SIZE * 4},{0,0},0,WHITE);
+}
+void Player::moveStatic() {
+    Vector2 d = MathUtils::normalize(directionMapper(activeDirection));
+    activeWorldPosition.x += d.x * MOVEMENT_SPEED;
+    activeWorldPosition.y += d.y* MOVEMENT_SPEED;
 }
 int Player::move() {
     Vector2 inputDirection = {0,0};
@@ -34,9 +43,6 @@ int Player::move() {
     smoothedWorldPosition = MathUtils::Vector2Lerp(smoothedWorldPosition, activeWorldPosition, PLAYER_LERP_RATE);
     if (MathUtils::Vector2Distance(smoothedWorldPosition, activeWorldPosition) < LERP_DISTANCE_THRESHOLD) {
         smoothedWorldPosition = activeWorldPosition;
-    }
-    if (inputDirection.x != 0){
-        std::cout<<activeWorldPosition.x<<"\n";
     }
     return changed;
 }

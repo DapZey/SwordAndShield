@@ -17,7 +17,7 @@
 #define ACTIVE_PLAYER_CORRECTION '~'
 #define OTHER_PLAYER_DIRECTION '#'
 #define OTHER_PLAYER_POSITION '$'
-#define BUFFER_SIZE 40
+#define BUFFER_SIZE 200
 class Network {
     int iResult;
     WSADATA wsadata;

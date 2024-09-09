@@ -16,18 +16,18 @@
 #define CONNECTION_SUCCEED '^'
 class Protocol {
     std::chrono::time_point<std::chrono::steady_clock> protocolTime = std::chrono::steady_clock::now();
-    std::chrono::time_point<std::chrono::steady_clock> playerCorrectionTime = std::chrono::steady_clock::now();
     int port_1 = PORT_1;
     int port_2 = PORT_2;
     Network network;
     Player players[2];
     World world;
-    void tryConnection(std::string& data,Player& currentPlayer, std::string& messageToSendCurrent);
+    void tryConnection(std::string& data,Player& currentPlayer,  std::string& messageToSendCurrent);
 public:
     ~Protocol();
     Protocol();
     void Run();
     void sendCorrection(Player& p,std::string& toSend, std::string& toAdd);
+    void correctionRelay(Player &current,Player&other, std::string & toSend);
 };
 
 

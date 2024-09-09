@@ -3,16 +3,20 @@
 //
 
 #include "Network.h"
-std::string Network::ReceiveMessageFrom(Player& p) {
-    int bytes = recvfrom(p.socket, p.buffer, sizeof(p.buffer), 0, (sockaddr*)&p.address, &p.addressLength);
-    if (bytes == SOCKET_ERROR) {
+void Network::SendMessageTo(const std::string& s, Player& p, Player& o) {
+    if (p.init && o.init){
+        p.address.sin_port = htons(p.portDest);
     }
-    return p.buffer;
-}
-void Network::SendMessageTo(const std::string& s, Player& p) {
-    int message = sendto(p.socket, s.c_str(), static_cast<int>(s.size()) + 1, 0, (sockaddr*)&p.address, p.addressLength);
+    std::cout << "Attempting to send message to player " << p.id << std::endl;
+    std::cout << "  Message: " << s << std::endl;
+    std::cout << "  Destination IP: " << inet_ntoa(p.address.sin_addr) << std::endl;
+    std::cout << "  Destination Port: " << ntohs(p.address.sin_port) << std::endl;
+    std::cout << "  Other Port: " << ntohs(o.address.sin_port) << std::endl;
+    int message = sendto(p.socket, s.c_str(), static_cast<int>(s.size()), 0, (sockaddr*)&p.address, p.addressLength);
     if (message == SOCKET_ERROR) {
-        std::cerr << "sendto() failed: " << WSAGetLastError() << "\n";
+        std::cerr << "sendto() failed: " << WSAGetLastError() << " for player " << p.id << std::endl;
+    } else {
+        std::cout << "Successfully sent " << message << " bytes to player " << p.id << std::endl;
     }
 }
 Network::Network() {
@@ -35,7 +39,6 @@ void Network::CreateSocket(Player& player, const int& port) {
     if (player.socket == INVALID_SOCKET) {
         std::cout<<"error creating socket\n"<<WSAGetLastError();
     }
-
     if (!SetNonBlocking(player.socket) || !BindSocketToPort(player, port)) {
         closesocket(player.socket);
         std::cout<<"error binding or not blocking\n";
@@ -58,4 +61,18 @@ bool Network::BindSocketToPort(Player& p, const int& port) {
         return false;
     }
     return true;
+}
+
+std::string Network::ReceiveMessageFrom(Player &p) {
+    char buffer[BUFFER_SIZE];
+    int bytesReceived = recvfrom(p.socket, buffer, BUFFER_SIZE, 0, (sockaddr*)&p.address, &p.addressLength);
+    if (bytesReceived == SOCKET_ERROR) {
+//        std::cerr << "recvfrom() failed: " << WSAGetLastError() << " for player " << p.id << std::endl;
+        return "";
+    } else {
+        std::string received(buffer, bytesReceived);
+        std::cout << "Received " << bytesReceived << " bytes from player " << p.id
+                  << " (Port: " << ntohs(p.address.sin_port) << "): " << received << std::endl;
+        return received;
+    }
 }

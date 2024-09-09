@@ -1,7 +1,3 @@
-//
-// Created by benra on 7/16/2024.
-//
-
 #include "Protocol.h"
 #include "MathUtils.h"
 #define LEVEL_SWITCH '|'
@@ -21,17 +17,16 @@ Protocol::~Protocol(){
 }
 void Protocol::tryConnection(std::string& data,Player& currentPlayer, std::string& messageToSendCurrent) {
     if (ParsingUtils::containsChar(data, CONNECTION_TRY)){
+        if (currentPlayer.portDest == 0){
+            currentPlayer.portDest = ntohs(currentPlayer.address.sin_port);
+        }
+        std::cout<<currentPlayer.portDest<<" port num\n";
         if (!currentPlayer.establishConnection()){
             messageToSendCurrent+=CONNECTION_FAIL;
         }
         else {
             messageToSendCurrent+=CONNECTION_SUCCEED;
         }
-    }
-}
-void Protocol::sendCorrection(Player &p, std::string &toSend, std::string &toAdd) {
-    if (p.init){
-        toSend += toAdd;
     }
 }
 void Protocol::Run() {
@@ -41,30 +36,32 @@ void Protocol::Run() {
         currentPlayer = &players[i];
         Player* otherPlayer;
         otherPlayer = &players[otherPlayerIndex];
-        protocolTime = std::chrono::steady_clock::now();
-        int elapsedCorrectionTime = std::chrono::duration_cast<std::chrono::milliseconds>(protocolTime - playerCorrectionTime).count();
-        std::string messageToSendCurrent ="";
-        std::string messageToSendOther = "";
-        if (elapsedCorrectionTime > 1000){
-            playerCorrectionTime = protocolTime;
-            std::string correctionCurrent = ACTIVE_PLAYER_CORRECTION + std::to_string(currentPlayer->x)+","+std::to_string(currentPlayer->y)+ACTIVE_PLAYER_CORRECTION;
-            std::string correctionOther = ACTIVE_PLAYER_CORRECTION + std::to_string(otherPlayer->x)+","+std::to_string(otherPlayer->y)+ACTIVE_PLAYER_CORRECTION;
-            sendCorrection(*currentPlayer, messageToSendCurrent, correctionCurrent);
-            sendCorrection(*otherPlayer, messageToSendOther, correctionOther);
-        }
+        memset(currentPlayer->buffer, 0, sizeof(currentPlayer->buffer));
         std::string data = network.ReceiveMessageFrom(*currentPlayer);
-        if (!data.empty()){
-//            std::cout<<data<<"\n";
+        protocolTime = std::chrono::steady_clock::now();
+        if (currentPlayer->correctionFlag && currentPlayer->init){
+            currentPlayer->playerCorrectionTime = protocolTime;
+            std::string correctionCurrent = ACTIVE_PLAYER_CORRECTION + std::to_string(currentPlayer->x)+","+std::to_string(currentPlayer->y)+ACTIVE_PLAYER_CORRECTION
+                                            + OTHER_PLAYER_POSITION + std::to_string(otherPlayer->x) + "," + std::to_string(otherPlayer->y)+ OTHER_PLAYER_POSITION;
+            currentPlayer->messageToSend += correctionCurrent;
+            currentPlayer->correctionFlag = false;
         }
         std::string direction = ParsingUtils::extractSubstringBetweenDelimiters(data, PLAYER_DIR);
         if (!direction.empty()){
-            Vector2 dirVec;
+            Vector2 dirVec = {0,0};
             std::vector<std::string> dirSplit = ParsingUtils::splitstringbychar(direction, ",");
             dirVec.x = std::stof(dirSplit[0]);
             dirVec.y = std::stof(dirSplit[1]);
-            dirVec = MathUtils::normalize(dirVec);
             currentPlayer->direction = dirVec;
-            messageToSendOther+=OTHER_PLAYER_DIRECTION + std::to_string(dirVec.x) + "," + std::to_string(dirVec.y) + OTHER_PLAYER_DIRECTION;
+            currentPlayer->direction = MathUtils::normalize(currentPlayer->direction);
+            currentPlayer->inputs = dirVec;
+            currentPlayer->correctionFlag = true;
+            otherPlayer->directionFlag = true;
+        }
+        if (currentPlayer->directionFlag && currentPlayer->init){
+            std::string dir = OTHER_PLAYER_DIRECTION + std::to_string(otherPlayer->inputs.x) + "," + std::to_string(otherPlayer->inputs.y)+ OTHER_PLAYER_DIRECTION;
+            currentPlayer->messageToSend += dir;
+            currentPlayer->directionFlag = false;
         }
         std::string level = ParsingUtils::extractSubstringBetweenDelimiters(data, LEVEL_SWITCH);
         if (!level.empty()){
@@ -72,18 +69,17 @@ void Protocol::Run() {
             int x = std::stoi(level);
             currentPlayer->levelID = x;
             currentPlayer->spawnPointMapper();
-            std::cout<<"player level updated to: "<<currentPlayer->levelID<<"\n";
-            std::cout<<currentPlayer->x<<"\n";
-            messageToSendOther += LEVEL_SWITCH + level + LEVEL_SWITCH;
+            currentPlayer->switchFlag = true;
         }
-        tryConnection(data,*currentPlayer,messageToSendCurrent);
-        if (!messageToSendCurrent.empty()){
-            network.SendMessageTo(messageToSendCurrent,*currentPlayer);
+        if (otherPlayer->switchFlag){
+            currentPlayer->messageToSend += LEVEL_SWITCH + std::to_string(otherPlayer->levelID) + LEVEL_SWITCH;
+            otherPlayer->switchFlag = false;
         }
-        if (!messageToSendOther.empty()){
-            network.SendMessageTo(messageToSendOther, *otherPlayer);
+        tryConnection(data,*currentPlayer,currentPlayer->messageToSend);
+        if (!currentPlayer->messageToSend.empty()){
+            network.SendMessageTo(currentPlayer->messageToSend,*currentPlayer, *otherPlayer);
+            currentPlayer->messageToSend="";
         }
-        memset(currentPlayer->buffer, 0, sizeof(currentPlayer->buffer));
     }
     world.run();
 }

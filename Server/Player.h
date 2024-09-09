@@ -6,15 +6,24 @@
 #define SERVER_PLAYER_H
 
 #include "winsock2.h"
-#define BUFFER_SIZE 40
+#include "chrono"
+#include "string"
+#define BUFFER_SIZE 200
 struct Vector2{
     float x;
     float y;
 };
 class Player {
 public:
+    u_short portDest = 0;
+    std::chrono::time_point<std::chrono::steady_clock> playerCorrectionTime = std::chrono::steady_clock::now();
+    int id;
+    std::string messageToSend;
+    bool correctionFlag = false;
     bool init = false;
+    bool switchFlag = false;
     int levelID = 0;
+    bool directionFlag = false;
     SOCKET socket;
     sockaddr_in address;
     int addressLength = sizeof(address);
@@ -24,6 +33,7 @@ public:
     float x = 50;
     float y = 50;
     Vector2 direction = {0,0};
+    Vector2 inputs = {0,0};
     void move();
 };
 

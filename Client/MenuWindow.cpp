@@ -14,7 +14,7 @@ MenuWindow::MenuWindow(const int windowWidth, const int windowHeight, Protocol& 
 
 void MenuWindow::update() {
     bool connectionTryFlag = false;
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) || IsKeyDown(KEY_ENTER)){
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) || IsKeyDown(KEY_ENTER) && protocol->connectionTries > 0){
         if (MathUtils::pointWithinBoundsOfSquare({buttonX,buttonY,buttonWidth,buttonHeight}, GetMousePosition())|| IsKeyDown(KEY_ENTER)) {
             connectionTryFlag = true;
             if (!textFieldToggle) {
@@ -23,6 +23,9 @@ void MenuWindow::update() {
                 textFieldToggle = true;
             }
         }
+    }
+    else {
+        protocol->connectionTries = 1;
     }
     this->protocol->MenuRun(connectionTryFlag);
     if (!this->protocol->disconnected){

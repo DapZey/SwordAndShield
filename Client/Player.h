@@ -10,18 +10,21 @@
 #include "vector"
 #include "Mapper.h"
 #define PLAYER_SIZE 50
-#define MOVEMENT_SPEED 15
+#define MOVEMENT_SPEED 4
 enum Direction{
     up,down,left,right,upRight,upLeft,downRight,downLeft,idle
 };
 class Player {
 public:
+    Texture2D movement = LoadTexture("Xmove.png");
     Vector2 activeWorldPosition = {0,0};
     Vector2 smoothedWorldPosition = {0,0};
     int level = 0;
     Direction activeDirection = idle;
     void draw();
+    void drawStatic();
     int move();
+    void moveStatic();
     static Direction vectorMapper(Vector2 v) {
         if (v.x == 0 && v.y == 0) {
             return idle;
@@ -38,7 +41,7 @@ public:
         if (v.x == 0 && v.y == -1) {
             return up;
         }
-        if (v.x == -1 && v.y == -1) {
+        if ((v.x == -1 && v.y == -1)) {
             return upLeft;
         }
         if (v.x == 1 && v.y == -1) {

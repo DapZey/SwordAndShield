@@ -13,6 +13,7 @@ class Protocol {
     int port_1 = PORT_1;
     int port_2 = PORT_2;
 public:
+    int connectionTries = 2;
     bool disconnected = true;
     Network* network;
     void preConnection(bool flag);

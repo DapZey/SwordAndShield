@@ -3,27 +3,29 @@
 //
 
 #include "GameWindow.h"
-#define CAMERA_LERP_RATE 10
-#define TICK_RATE_DELTA 0.016f
-#define LERP_DISTANCE_THRESHOLD 0.2f
+#define CAMERA_LERP_RATE 20.0f
+#define TICK_RATE_DELTA 0.0069f
+#define LERP_DISTANCE_THRESHOLD 0.1f
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 GameWindow::GameWindow(Protocol &p) {
     this->protocol = &p;
     this->world.user.activeWorldPosition = this->world.currentLevel->playerSpawnPoint;
+    playerFollowCamera = {0};
     playerFollowCamera.target={float(SCREEN_WIDTH)/ 2,float (SCREEN_HEIGHT) / 2};
     playerFollowCamera.offset = (Vector2){ float(SCREEN_WIDTH)/ 2, float (SCREEN_HEIGHT) / 2 };
     playerFollowCamera.rotation = 0.0f;
-    playerFollowCamera.zoom = 0.70f;
+    playerFollowCamera.zoom = 1.0f;
 }
 void GameWindow::draw() {
     BeginDrawing();
     ClearBackground(WHITE);
+    RaylibDrawText(TextFormat("FPS: %i", GetFPS()),50,50,20,GREEN);
     BeginMode2D(playerFollowCamera);
     this->world.currentLevel->render();
     this->world.user.draw();
     if (this->world.user.level == this->world.other.level){
-        this->world.other.draw();
+        this->world.other.drawStatic();
     }
     EndMode2D();
     EndDrawing();
@@ -41,14 +43,20 @@ void GameWindow::update() {
         gameTime += std::chrono::milliseconds(ticksPassed * TICK_RATE_MS);
     }
     for (int i = 0; i< ticksPassed; i++){
+//        std::string con = "connected!";
+//        protocol->network->send(con);
         moveFlag = world.user.move();
-        playerFollowCamera.target = MathUtils::Vector2Lerp(playerFollowCamera.target, {world.user.activeWorldPosition.x,world.user.activeWorldPosition.y}, CAMERA_LERP_RATE * TICK_RATE_DELTA);
-        if (MathUtils::Vector2Distance(playerFollowCamera.target, {world.user.activeWorldPosition.x,world.user.activeWorldPosition.y}) < LERP_DISTANCE_THRESHOLD) {
-            playerFollowCamera.target = {world.user.activeWorldPosition.x,world.user.activeWorldPosition.y};
-        }
+        world.other.moveStatic();
         if (moveFlag == 1){
             dir = Player::directionMapper(world.user.activeDirection);
         }
+        if (MathUtils::Vector2Distance(playerFollowCamera.target, {world.user.activeWorldPosition.x,world.user.activeWorldPosition.y}) < LERP_DISTANCE_THRESHOLD) {
+            playerFollowCamera.target = {world.user.activeWorldPosition.x,world.user.activeWorldPosition.y};
+        }
+        else {
+            playerFollowCamera.target = MathUtils::Vector2Lerp(playerFollowCamera.target, {world.user.activeWorldPosition.x,world.user.activeWorldPosition.y}, CAMERA_LERP_RATE * TICK_RATE_DELTA);
+        }
+        playerFollowCamera.offset = (Vector2){ float(SCREEN_WIDTH)/ 2, float (SCREEN_HEIGHT) / 2 };
     }
     int level = world.SwitchLevel(); //TO BE CHANGED ONCE DOORS ARE MADE
     bool levelFlag = false;

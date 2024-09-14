@@ -6,6 +6,7 @@
 #define PLAYER_LERP_RATE 0.5f
 #define LERP_DISTANCE_THRESHOLD 1.0f
 void Player::draw() {
+//    DrawTextureV(movement, {smoothedWorldPosition.x,smoothedWorldPosition.y},WHITE);
     DrawTexturePro(movement,{0,0,62,62},{smoothedWorldPosition.x,smoothedWorldPosition.y,PLAYER_SIZE*4, PLAYER_SIZE*4},{0,0},0,WHITE);
 //    DrawRectangle((int)smoothedWorldPosition.x,(int)smoothedWorldPosition.y,PLAYER_SIZE, PLAYER_SIZE,BLUE);
 }

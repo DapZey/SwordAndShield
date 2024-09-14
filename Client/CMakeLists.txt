@@ -22,6 +22,11 @@ add_executable(Client main.cpp
         Level.h
         Mapper.cpp
         Mapper.h
+        Animation.cpp
+        Animation.h
+        Animation.h
+        AnimationManager.cpp
+        AnimationManager.h
 )
 set(WINSOCK_LIBRARIES ws2_32)
 
